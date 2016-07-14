@@ -1,0 +1,15 @@
+@CHARSET "UTF-8";
+
+.ground {
+	background-image: url("/images/ground.jpg");
+	background-size: cover;
+	height: 600px;
+	width: 1000px;
+}
+
+.uniform {
+	position:absolute;
+	cursor: pointer;
+	width: 80px;
+	height: 80px;
+}
