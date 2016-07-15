@@ -2,19 +2,6 @@
  * formation.js
  */
 
-//.ground {
-//	background-image: url("/images/ground.jpg");
-//	background-size: cover;
-//	height: 600px;
-//	width: 1000px;
-//}
-//
-//.uniform {
-//	cursor: pointer;
-//	width: 80px;
-//	height: 80px;
-//}
-
 Location = function(top, left){
 	this.top = top;		// 화면의 top 위치
 	this.left = left;	// 화면의 left 위치
@@ -53,6 +40,7 @@ var uniform_arr = []; // 유니폼 인스턴스 저장 배열
 var numOfPlayers,	// 게임 인원수
 	formationNo;	// 포메이션 번호
 
+// 
 function initUniform(i, pos, top, left){
 	uniform_arr.push(new Uniform());
 	uniform_arr[i].setSeq(i);
@@ -66,6 +54,7 @@ function initUniform(i, pos, top, left){
 	$("#player"+i).click(function(){
 		var uni = uniform_arr[i];
 		console.log(uni.getPosition() + "]" + uni.getSeq() + ", left:" + uni.getLocation().getLeft() + ", top:" + uni.getLocation().getTop());
+		// 선수등록 코드 위치
 	});
 }
 
@@ -89,7 +78,7 @@ function setFormation(numOfPlayers, formation){
 		gap_top = 0;
 	
 	
-	// 출력될 유니폼 위치
+	// 출력될 유니폼 정보, 위치
 	var param_pos, param_top, param_left;
 	var offset = 30; // 상단 여백 조정
 	
@@ -139,23 +128,19 @@ function setFormation(numOfPlayers, formation){
 	// 설정한 select위치에 태그 추가 및 포메이션 이벤트 등록
 	$.fn.select = function(){
 		var $select = $("#select");
-		$select.html("<div id='players_div'>" +
-				"<span id='players_span'>인원</span>" +
+		$select.html("<span id='players_span'>인원</span>" +
 				"<select id='players'>" +
 				"<option value='11' selected>11명</option>" +
 				"<option value='10'>10명</option>" +
 				"<option value='9'> 9명</option>" +
 				"</select>" +
-				"</div>" +
-				"<div id='formations_div'>" +
 				"<span id='formations_span'>포메이션</span>" +
 				"<select id='formations'>" +
 				"<option value='451'>4-5-1</option>" +
 				"<option value='442' selected>4-4-2</option>" +
 				"<option value='433'>4-3-3</option>" +
 				"<option value='352'>3-5-2</option>" +
-				"</select>" +
-				"</div>");
+				"</select>");
 		
 		// select태그가 default 값일 경우 ground에 uniform 뿌려줌
 		numOfPlayers = $("#players").val();

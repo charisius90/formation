@@ -8,9 +8,9 @@
 <body>
 <h1>hello</h1>
 <div id="container" style="border: 1px solid gray;">
-	<div id="ground_wrapper">
-		<div id="select">
-		</div>
+	<div id="ground_wrapper" class="ground_wrapper">
+		<!-- 인원수, 포메이션 지정 select 태그 위치 -->
+		<div id="select" class="select"></div>
 		<!-- 축구장 그림 띄울 div에 id="ground" 지정 -->
 		<div id="ground"></div>
 	</div>
