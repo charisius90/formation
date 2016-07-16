@@ -1,4 +1,8 @@
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.MemberDTO"%>
+<%@page import="java.util.List"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,28 +11,35 @@
 </head>
 <body>
 <h1>hello</h1>
-<div id="container" style="border: 1px solid gray;">
-	<div id="ground_wrapper" class="ground_wrapper">
-		<!-- 인원수, 포메이션 지정 select 태그 위치 -->
-		<div id="select" class="select"></div>
-		<!-- 축구장 그림 띄울 div에 id="ground" 지정 -->
-		<div id="ground"></div>
+<div id="formation">
+	<div id="ground" class="ground"></div>
+	<div id="list">
+		<div id="participate_wrapper" style="float: left;">
+			<label for="#participate">라인업</label><br/>
+			<select id="participate" size="20"></select>
+		</div>
+		<div id="member_wrapper">
+			<label for="#member">등번호 이름</label><br/>
+			<select id="member" size="20"></select><br/>
+			<input type="button" value="등록" onclick="fnRegisterProc()"/>
+		</div>
 	</div>
-	<!-- 선수 명단 뿌릴 div에 id="line_up" 지정 -->
-	<div id="line_up"></div>
+	<form id="request" method="POST" action="list.action">
+		<input type="button" value="멤버 가져오기" onclick="fnTest()"/>
+	</form>
 </div>
 <!--Import jQuery before formation.js-->
 <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
 <script type="text/javascript" src="/js/formation.js"></script>
 <script>
-	$(document).ready(function(){
-		// ground 그리기
-		$("#ground").ground();
-		
-		// select태그 추가하고 change마다 유니폼 뿌려주는 이벤트 등록
-		$("#select").select();
-	});
+
+</script>
+<script>
+// 	$(document).ready(function(){
+// 		// ground 그리기
+// 		$("#ground").ground();
+// 	});
 </script>
 </body>
 </html>
