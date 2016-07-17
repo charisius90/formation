@@ -7,7 +7,7 @@
 <html>
 <head>
 <title>Insert title here</title>
-<link rel="stylesheet" href="/css/formation.css">
+<link rel="stylesheet" href="css/formation.css">
 </head>
 <body>
 <h1>hello</h1>
@@ -31,7 +31,7 @@
 <!--Import jQuery before formation.js-->
 <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
-<script type="text/javascript" src="/js/formation.js"></script>
+<script type="text/javascript" src="js/formation.js"></script>
 <script>
 
 </script>
