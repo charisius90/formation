@@ -59,9 +59,12 @@ Uniform.prototype = {
 
 // 등록된 선수 객체 저장 배열, 등록할 객체 인스턴스
 var register_arr = new Array(),
+	lineUp_arr = new Array(),
 	register_instance;
 
 var $member = $("#member");
+var $firstLineUp = $("#firstLineUp");
+var $subLineUp = $("#subLineUp");
 var $ground = $("#ground");
 
 // 등록할 사용자 이름, 등번호, 등록될 위치 
@@ -82,8 +85,46 @@ function fnTest(){
 		if(i<10){
 			num = "0" + i;
 		}
-		$member.append("<option>" + num + " name" + i + "</option>");
+		$member.append("<option id='"+num+"'>" + num + " name" + i + "</option>");
 	}
+}
+
+//라인업 등록
+function fnLineUpRegister(){
+	var lineUpType = $(':radio[name="lineUpType"]:checked').val();
+	var selectMember = $member.find('option:selected');
+	selectMember.removeAttr("selected");
+	if(lineUpType == "first") {
+		addLineUpDoubleClick(selectMember);
+		$firstLineUp.append(selectMember);
+	} else {
+		$subLineUp.append(selectMember);
+	}
+}
+
+//라인업 제거
+function fnLineUpRemove(){
+	var firstMember = $firstLineUp.find('option:selected');
+	var subMember = $subLineUp.find('option:selected');
+	var selectMember = null;
+	if(firstMember.length > 0) {
+		selectMember = firstMember;
+		removeLineUpDoubleClick(selectMember);
+		var player = $ground.find("#player"+selectMember.attr("id"));
+		if(player.length > 0) {
+			player.remove();
+		}
+	}
+	
+	if(subMember.length > 0) {
+		selectMember = subMember;
+	}
+	
+	if(selectMember == null) {
+		alert("제거할 선수를 선택하세요.");
+		return;
+	}
+	$member.append(selectMember);
 }
 
 // 등록할 멤버가 이미 등록되었는지 확인하기
@@ -98,27 +139,40 @@ function isRegistered(backnumber){
 }
 
 // 라인업에 선수 등록
-function fnRegisterProc(){
-	var pos_top = $ground.position().top,
-		pos_left = $ground.position().left,
-		off_top = $ground.height()/2,
-		off_left = $ground.width()/2;
-	
-	center_top = eval(pos_top + off_top) - offset;
-	center_left = eval(pos_left + off_left) - offset;
-	
-	var select_val = $member.val();
-	
-	backnumber = select_val.split(" ")[0];
-	name = select_val.split(" ")[1];
-	
-	if(isRegistered(backnumber)){
-		alert("이미 등록된 선수 입니다.");
-		return;
-	}
-	
-	fnRegister(backnumber, name, center_top, center_left);
-}
+//function fnRegisterProc(){
+//	var backnumber = $member.find('option:selected').attr('id');
+//	name = $member.val().split(" ")[1];
+//	
+//	if(isRegistered(backnumber)){
+//		alert("이미 등록된 선수 입니다.");
+//		return;
+//	}
+//	
+//	fnLineUpRegister(backnumber, name, center_top, center_left);
+//}
+
+// 그라운드 멤버 등록
+//function fnGroundRegisterProc(){
+//	var pos_top = $ground.position().top,
+//		pos_left = $ground.position().left,
+//		off_top = $ground.height()/2,
+//		off_left = $ground.width()/2;
+//	
+//	center_top = eval(pos_top + off_top) - offset;
+//	center_left = eval(pos_left + off_left) - offset;
+//	
+//	var select_val = $member.val();
+//	
+//	backnumber = select_val.split(" ")[0];
+//	name = select_val.split(" ")[1];
+//	
+//	if(isRegistered(backnumber)){
+//		alert("이미 등록된 선수 입니다.");
+//		return;
+//	}
+//	
+//	fnRegister(backnumber, name, center_top, center_left);
+//}
 
 // 실제 등록
 function fnRegister(backnumber, name, center_top, center_left){
@@ -171,15 +225,53 @@ function fnFindByBacknumber(backnumber){
 	}
 }
 
-// 제거
+//멤버 제거
 function fnDelete(backnumber){
-	$("#player"+backnumber).remove();
-	register_arr.splice(fnFindByBacknumber(backnumber));
-	for(var i=0; i<register_arr.length; i++){
-		console.log("등록된 등번호 목록 : " + register_arr[i].getBacknumber());
+	$member.find("#"+backnumber).remove();
+	
+}
+
+// 선발이 선택될 경우 후보선수 셀렉트 박스 체크된 사항 지움.
+function fnFirstLineUpSelect() {
+	$subLineUp.find("option:selected").removeAttr("selected");
+}
+
+// 후보가 선택될 경우, 선발 셀렉트 박스에 체크된 사항 지움
+function fnSubLineUpSelect() {
+	$firstLineUp.find("option:selected").removeAttr("selected");
+}
+
+// 선발 더블 클릭시 - ground에 선발 등록
+function addLineUpDoubleClick(selectMember) {
+	selectMember.on("dblclick", function () {
+		fnLineUpGroundRegister(selectMember);
+	});
+}
+
+//그라운드 멤버 등록
+function fnLineUpGroundRegister(selectMember){
+	var pos_top = $ground.position().top,
+		pos_left = $ground.position().left,
+		off_top = $ground.height()/2,
+		off_left = $ground.width()/2;
+	
+	center_top = eval(pos_top + off_top) - offset;
+	center_left = eval(pos_left + off_left) - offset;
+	
+	backnumber = selectMember.attr("id");
+	name = selectMember.val().split(" ")[1];
+	
+	if(isRegistered(backnumber)){
+		alert("이미 등록된 선수 입니다.");
+		return;
 	}
-	fnClose(backnumber);
-	$("#popover"+backnumber).remove();
+	
+	fnRegister(backnumber, name, center_top, center_left);
+}
+
+// 선발 제거시 더블 클릭 등록 이벤트 off
+function removeLineUpDoubleClick(selectMember){
+	selectMember.off("dblclick");
 }
 
 // 창닫기
